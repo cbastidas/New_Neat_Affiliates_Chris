@@ -6,6 +6,7 @@ import WhyJoinEditor from './WhyJoinEditor.tsx';
 import './styles.css';
 import ContactEditor from './ContactEditor';
 import FaqEditor from './FaqEditor';
+import AuthEditor from './AuthEditor';
 
 interface CommissionTier {
   range: string;
@@ -135,21 +136,16 @@ export default function AdminDashboard() {
 
       {/* ✅ SECTION: FAQ */}
       <div id="FAQ" className="mb-12">
-        <h2 className="text-xl font-semibold mb-2">FAQ</h2>
+        <h2 className="text-xl font-semibold mb-2"></h2>
         <FaqEditor />
       </div>
 
       {/* ✅ SECTION: LOGIN */}
       <div id="Login" className="mb-12">
         <h2 className="text-xl font-semibold mb-2">Login</h2>
-        <p className="text-gray-600">Edit Login section here...</p>
+        <AuthEditor />
       </div>
 
-      {/* ✅ SECTION: SIGNUP */}
-      <div id="SignupNow" className="mb-12">
-        <h2 className="text-xl font-semibold mb-2">Signup</h2>
-        <p className="text-gray-600">Edit Signup section here...</p>
-      </div>
     </div>
   );
 }
