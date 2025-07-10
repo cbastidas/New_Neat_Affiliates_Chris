@@ -10,6 +10,7 @@ import AdminLogin from './AdminLogin';
 import { Session } from '@supabase/supabase-js';
 import Contact from './Contact';
 import Faq from './Faq';
+import LoginSignupSection from './LoginSignupSection';
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -235,144 +236,7 @@ export default function App() {
 
 
 
-<section id="Login" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-  <div
-    style={{
-      maxWidth: '600px',
-      margin: '0 auto',
-      padding: '0 1rem',
-    }}
-  >
-    <h2
-      style={{
-        fontSize: '2rem',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: '2rem',
-        color: '#1f2937',
-      }}
-    >
-      Login
-    </h2>
-
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '1rem',
-        justifyContent: 'center',
-      }}
-    >
-      {/* Throne login */}
-      <a
-        href="https://thrnaffpanel.thrnaffcdn.com/signin.php"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'inline-block',
-          padding: '1rem 2rem',
-          backgroundColor: '#f3f4f6',
-          borderRadius: '0.5rem',
-          textDecoration: 'none',
-          color: '#2563eb',
-          fontWeight: '600',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        }}
-      >
-        Login to Throne
-      </a>
-
-      {/* Realm login */}
-      <a
-        href="https://rlmaffpanel.myaffcdn1.com/signin.php"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'inline-block',
-          padding: '1rem 2rem',
-          backgroundColor: '#f3f4f6',
-          borderRadius: '0.5rem',
-          textDecoration: 'none',
-          color: '#2563eb',
-          fontWeight: '600',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        }}
-      >
-        Login to Realm
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="SignupNow" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-  <div
-    style={{
-      maxWidth: '600px',
-      margin: '0 auto',
-      padding: '0 1rem',
-    }}
-  >
-    <h2
-      style={{
-        fontSize: '2rem',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: '2rem',
-        color: '#1f2937',
-      }}
-    >
-      Signup Now
-    </h2>
-
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '1rem',
-        justifyContent: 'center',
-      }}
-    >
-      {/* Signup Throne */}
-      <a
-        href="https://thrnaffpanel.thrnaffcdn.com/signup.php"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'inline-block',
-          padding: '1rem 2rem',
-          backgroundColor: '#f3f4f6',
-          borderRadius: '0.5rem',
-          textDecoration: 'none',
-          color: '#2563eb',
-          fontWeight: '600',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        }}
-      >
-        Signup to Throne
-      </a>
-
-      {/* Signup Realm */}
-      <a
-        href="https://rlmaffpanel.myaffcdn1.com/signup.php"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'inline-block',
-          padding: '1rem 2rem',
-          backgroundColor: '#f3f4f6',
-          borderRadius: '0.5rem',
-          textDecoration: 'none',
-          color: '#2563eb',
-          fontWeight: '600',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        }}
-      >
-        Signup to Realm
-      </a>
-    </div>
-  </div>
-</section>
-
+        <LoginSignupSection />
 
     </main>
     </div>
