@@ -10,12 +10,13 @@ import AdminLogin from './AdminLogin';
 import { Session } from '@supabase/supabase-js';
 import Contact from './Contact';
 import Faq from './Faq';
-import LoginSignupSection from './LoginSignupSection';
+import LoginSignupModal from './LoginSignupModal';
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [brands, setBrands] = useState<any[]>([]);
   const [session, setSession] = useState<Session | null>(null);
+  const [modalType, setModalType] = useState<'login' | 'signup' | null>(null);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -102,8 +103,8 @@ export default function App() {
           style={{
             display: 'flex',
             gap: '0.5rem',
-            flexWrap: 'wrap', // ✅ que los botones se acomoden
-            maxWidth: '100%', // ✅ evita que desborde
+            flexWrap: 'wrap', 
+            maxWidth: '100%', 
             justifyContent: 'flex-end',
           }}
         >
@@ -128,7 +129,7 @@ export default function App() {
                 padding: '0.5rem 0.75rem',
                 borderRadius: '6px',
                 transition: 'background 0.2s, color 0.2s',
-                whiteSpace: 'nowrap', // ✅ evita corte feo de palabras
+                whiteSpace: 'nowrap', 
               }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.background = '#f3f4f6')
@@ -234,9 +235,31 @@ export default function App() {
 
         <Faq />
 
+      {/* Login and Signup Section */}
+      <div className="text-center my-10">
+          <button
+            onClick={() => setModalType('login')}
+            className="bg-purple-700 text-white px-5 py-2 rounded mx-2 hover:bg-purple-800"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => setModalType('signup')}
+            className="bg-green-700 text-white px-5 py-2 rounded mx-2 hover:bg-green-800"
+          >
+            Signup
+          </button>
+
+          {modalType && (
+            <LoginSignupModal
+              isOpen={true}
+              type={modalType}
+              onClose={() => setModalType(null)}
+            />
+          )}
+      </div>
 
 
-        <LoginSignupSection />
 
     </main>
     </div>
