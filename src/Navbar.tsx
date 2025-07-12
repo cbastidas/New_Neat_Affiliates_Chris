@@ -1,10 +1,10 @@
+//Navbar.tsx is the one that configures the admin navbar. 
 import React, { useState, useEffect } from 'react';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Detectar si estás en modo admin (por la URL)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setIsAdmin(params.get('admin') === 'true');
@@ -35,15 +35,35 @@ export default function Navbar() {
         zIndex: 20,
       }}
     >
-      {/* Logo */}
-      <div
-        onClick={() => scrollToSection('Home')}
-        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-      >
-        <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
-      </div>
+          <div
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setMenuOpen(false);
+          }}
+          style={{
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+          }}
+        >
+          <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
+          {isAdmin && (
+            <span
+              style={{
+                fontSize: '1.25rem',
+                fontWeight: 'bold',
+                color: '#1f2937',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Admin Dashboard
+            </span>
+          )}
+        </div>
 
-      {/* Navigation Buttons */}
+
+
       <div
         style={{
           display: 'flex',
@@ -55,14 +75,17 @@ export default function Navbar() {
         {[
           'WhyJoin',
           'CommissionRate',
-          'Brands',
+          'Our Brands',
           'Contact',
           'FAQ',
           'Login',
-          'SignupNow',
+          'Signup',
         ].map((id) => {
-          const targetId =
-            isAdmin && id === 'WhyJoin' ? 'why-join-editor' : id;
+          const targetId = (() => {
+            if (isAdmin && id === 'WhyJoin') return 'why-join-editor';
+            if (id === 'Our Brands') return 'OurBrands';
+            return id;
+          })();
 
           return (
             <button
@@ -86,7 +109,7 @@ export default function Navbar() {
                 (e.currentTarget.style.background = 'transparent')
               }
             >
-              {id === 'SignupNow' ? (
+              {id === 'Signup' ? (
                 <strong>Signup</strong>
               ) : (
                 id.replace(/([A-Z])/g, ' $1').trim()

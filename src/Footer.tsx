@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   const navItems = [
     { id: 'Terms', label: 'Terms & Conditions', route: '/terms' },
-    { id: 'Licenses', label: 'Licenses', route: '/licenses' },
     { id: 'Testimonials', label: 'Testimonials', route: '/testimonials' },
     { id: 'Home', label: 'Home' }, // este no tiene route, solo scroll
   ];

@@ -91,11 +91,15 @@ export default function App() {
       >
         {/*Logo */}
         <div
-          onClick={() => scrollToSection('Home')}
+          onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setMenuOpen(false);
+          }}
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
         >
           <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
         </div>
+
 
         {/* Desktop nav */}
         <div
@@ -111,11 +115,11 @@ export default function App() {
           {[
             'WhyJoin',
             'CommissionRate',
-            'Brands',
+            'OurBrands',
             'Contact',
             'FAQ',
             'Login',
-            'SignupNow',
+            'Signup',
           ].map((id) => (
             <button
               key={id}
@@ -155,10 +159,11 @@ export default function App() {
           {[
             'WhyJoin',
             'CommissionRate',
+            'OurBrands',
             'Contact',
             'FAQ',
             'Login',
-            'SignupNow',
+            'Signup',
           ].map((id) => (
             <button
               key={id}
@@ -229,7 +234,10 @@ export default function App() {
             </div>
           </div>  
         </section>
+
+        <div id="OurBrands" className="py-16">
         <BrandsSection />
+        </div>
 
         <Contact />    
 

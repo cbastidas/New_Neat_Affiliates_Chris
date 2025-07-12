@@ -75,6 +75,12 @@ export default function LoginSignupModal({ isOpen, type, onClose }: Props) {
               .map((b) => b.name)
               .join(', ') || 'No brands associated';
 
+              // Conditionally set tooltip only for Realm and Throne
+          const showTooltip = instance === 'Realm' || instance === 'Throne';
+          const tooltipText = showTooltip
+           ? `Brands for this instance: ${associatedBrands}`
+           : undefined;
+
             return (
               <a
                 key={instance}
@@ -84,7 +90,7 @@ export default function LoginSignupModal({ isOpen, type, onClose }: Props) {
                 className="block"
               >
                 <div
-                  title={`Brands for this instance: ${associatedBrands}`}
+                  title={tooltipText}
                   className="border p-4 rounded shadow hover:bg-purple-50 transition duration-300 cursor-pointer text-center"
                 >
                   <p className="font-bold">{instance}</p>
