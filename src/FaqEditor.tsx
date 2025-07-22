@@ -83,7 +83,7 @@ export default function FaqEditor() {
 
   return (
     <div className="py-8">
-      <h2 className="text-xl font-bold mb-4">FAQ Admin Editor</h2>
+      <h2 className="text-xl font-bold mb-4"></h2>
 
       {successMessage && <div className="text-green-600 mb-4">{successMessage}</div>}
 

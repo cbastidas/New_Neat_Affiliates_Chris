@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabaseClient';
 
 interface WhyJoinItem {
@@ -7,6 +7,7 @@ interface WhyJoinItem {
   title: string;
   description: string;
   order: number;
+  emoji_url: string;
 }
 
 export default function WhyJoin() {
@@ -51,7 +52,14 @@ export default function WhyJoin() {
               key={item.id}
               className="p-6 bg-white shadow-md rounded-lg border border-gray-100 hover:shadow-lg transition"
             >
-              <div className="text-4xl mb-3 text-center">{item.icon}</div>
+              {item.emoji_url && (
+                <img
+                src={item.emoji_url}
+                alt={item.title}
+                className="mx-auto mb-4"
+                style={{ width: 60, height: 60 }}
+                />
+                )}
               <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">{item.title}</h3>
               <p className="text-gray-600 text-center">{item.description}</p>
             </div>

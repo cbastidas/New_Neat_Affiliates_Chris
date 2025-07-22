@@ -3,10 +3,10 @@ import { supabase } from './lib/supabaseClient';
 
 interface ContactInfo {
   id: string;
-  icon: string;
   label: string;
   value: string;
   type: string;
+  emoji_url?: string;
 }
 
 export default function Contact() {
@@ -17,7 +17,7 @@ export default function Contact() {
       const { data, error } = await supabase
         .from('contact_info')
         .select('*')
-        .order('created_at', { ascending: true }); // Orden opcional
+        .order('created_at', { ascending: true });
 
       if (error) {
         console.error('Error fetching contacts:', error.message);
@@ -30,16 +30,23 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="Contact" className="text-center py-16">
-      <h2 className="text-3xl font-bold">Contact Us</h2>
+    <section id="Contact" className="text-center py-16 bg-gray-50">
+      <h2 className="text-3xl font-bold text-purple-700 mb-2">Contact Us</h2>
       <p className="text-gray-600 mb-8">
-        Reach out to us via email, Telegram or Microsoft Teams.
+        Reach out to us via Email, Telegram or Microsoft Teams.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4">
         {contacts.map((item) => (
-          <div key={item.id} className="bg-white p-6 rounded-lg shadow text-left">
-            <p className="text-2xl mb-1">{item.icon}</p>
-            <p className="font-semibold">{item.label}</p>
+          <div key={item.id} className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
+            {item.emoji_url && (
+              <img
+                src={item.emoji_url}
+                alt={item.label}
+                className="w-14 h-14 object-contain mb-3 rounded-full shadow-sm"
+              />
+            )}
+            <p className="text-lg font-semibold">{item.label}</p>
             <a
               href={
                 item.type === 'email'
@@ -48,8 +55,9 @@ export default function Contact() {
                   ? `https://t.me/${item.value.replace('@', '')}`
                   : item.value
               }
-              className="text-blue-600 underline break-words"
-              target="_blank" rel="noopener noreferrer"
+              className="text-blue-600 underline break-words mt-1"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {item.value}
             </a>

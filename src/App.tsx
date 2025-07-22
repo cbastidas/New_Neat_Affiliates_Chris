@@ -3,7 +3,7 @@ import './styles.css';
 import BackgroundAnimation from './BackgroundAnimation';
 import BrandCard from './BrandCard';
 import { supabase } from './lib/supabaseClient';
-import BrandsSection from './BrandsSection';
+import PublicBrandLogoGallery from './BrandsSection';
 import AdminDashboard from './AdminDashboard';
 import WhyJoin from './WhyJoin';
 import AdminLogin from './AdminLogin';
@@ -11,6 +11,7 @@ import { Session } from '@supabase/supabase-js';
 import Contact from './Contact';
 import Faq from './Faq';
 import LoginSignupModal from './LoginSignupModal';
+
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -236,7 +237,7 @@ export default function App() {
         </section>
 
         <div id="OurBrands" className="py-16">
-        <BrandsSection />
+        <PublicBrandLogoGallery />
         </div>
 
         <Contact />    

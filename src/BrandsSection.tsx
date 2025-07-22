@@ -1,33 +1,35 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabaseClient';
 
-interface Brand {
+interface Logo {
   id: number;
   name: string;
   logo_url: string;
+  is_visible: boolean;
 }
 
 export default function BrandLogoGallery() {
-  const [brands, setBrands] = useState<Brand[]>([]);
+  const [logos, setLogos] = useState<Logo[]>([]);
 
   useEffect(() => {
-    const fetchBrands = async () => {
+    const fetchLogos = async () => {
       const { data, error } = await supabase
-        .from('brands')
-        .select('id, name, logo_url');
+        .from('logos') // 🚨 Cambiado de 'brands' a 'logos'
+        .select('id, name, logo_url, is_visible');
 
       if (error) {
-        console.error('Error fetching brands:', error.message);
+        console.error('Error fetching logos:', error.message);
       } else if (data) {
-        setBrands(data);
+        // 🚨 Solo los logos visibles
+        const visibleLogos = data.filter((logo) => logo.is_visible);
+        setLogos(visibleLogos);
       }
     };
 
-    fetchBrands();
+    fetchLogos();
   }, []);
 
-  // Si no hay logos aún, evitamos mostrar vacío
-  if (brands.length === 0) return null;
+  if (logos.length === 0) return null;
 
   return (
     <section className="py-12 bg-white overflow-hidden relative">
@@ -36,14 +38,14 @@ export default function BrandLogoGallery() {
 
         <div className="relative w-full overflow-hidden">
           <div className="flex animate-marquee gap-8 w-max">
-            {[...brands, ...brands].map((brand, index) => (
+            {[...logos, ...logos].map((logo, index) => (
               <div
-                key={`${brand.id}-${index}`}
+                key={`${logo.id}-${index}`}
                 className="flex-shrink-0 w-32 h-20 flex items-center justify-center"
               >
                 <img
-                  src={brand.logo_url}
-                  alt={brand.name}
+                  src={logo.logo_url}
+                  alt={logo.name}
                   className="max-h-[60px] w-auto object-contain"
                   loading="lazy"
                 />
