@@ -28,6 +28,7 @@ export default function Footer() {
       >
         Terms & Conditions
       </button>
+    
       <p className="text-sm text-gray-500">
         &copy; {new Date().getFullYear()} Neat Affiliates. All rights reserved.
       </p>

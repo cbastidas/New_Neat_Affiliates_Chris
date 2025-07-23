@@ -38,6 +38,9 @@ export default function Terms() {
 
   return (
     <section className="py-12 px-6 max-w-5xl mx-auto">
+      <p className="text-3xl font-bold mb-4">
+          Throne Entertainment & Empire of Kingdoms – Terms of Use
+      </p>
       <article
         className="prose prose-lg prose-purple max-w-none"
         dangerouslySetInnerHTML={{ __html: content }}

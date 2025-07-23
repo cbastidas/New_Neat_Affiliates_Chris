@@ -31,7 +31,7 @@ export default function Faq() {
 
   return (
     <section id="FAQ" className="py-16 text-center">
-      <h2 className="text-3xl font-bold mb-4">FAQ</h2>
+      <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
       <p className="text-gray-600 mb-6">You can find the answers to your questions. For different questions, please contact us.</p>
 
       <div className="flex justify-center flex-wrap gap-4 mb-6">

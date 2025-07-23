@@ -5,7 +5,7 @@ import { Editor } from '@tinymce/tinymce-react';
 
 export default function TermsEditor() {
   const [content, setContent] = useState('');
-  const id = 'c37be501-afa1-4898-9e67-c7166c5efb89'; // tu ID UUID en la tabla 'terms'
+  const id = 'c37be501-afa1-4898-9e67-c7166c5efb89'; 
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -31,7 +31,7 @@ export default function TermsEditor() {
         <span>📝</span> Edit Terms & Conditions
       </h2>
       <Editor
-        apiKey="w6v1vek49dbuuk99hkdpd8uxv1cphoscqzkfjq9e3h3p9ak2" // opcional
+        apiKey="w6v1vek49dbuuk99hkdpd8uxv1cphoscqzkfjq9e3h3p9ak2" 
         value={content}
         init={{
           height: 500,
