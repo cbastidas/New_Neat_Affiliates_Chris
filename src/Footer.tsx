@@ -22,6 +22,14 @@ export default function Footer() {
         Terms and Conditions
       </button>
 
+      {' • '}
+      <button
+        onClick={() => navigate(isAdmin ? '/providers?admin=true' : '/providers')}
+        className="text-purple-600 underline"
+      >
+        Providers
+      </button>
+
       <p className="text-sm text-gray-500">
         &copy; {new Date().getFullYear()} Neat Affiliates. All rights reserved.
       </p>
