@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabaseClient';
 
-interface ProvidersEditor {
+interface Provider {
   id: string;
   name: string;
   type: 'payment' | 'game';
@@ -9,165 +9,171 @@ interface ProvidersEditor {
 }
 
 export default function ProvidersEditor() {
-  const [providers, setProviders] = useState<ProvidersEditor[]>([]);
-  const [newProvider, setNewProvider] = useState<Partial<ProvidersEditor> & { file?: File | null }>({});
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editedProvider, setEditedProvider] = useState<Partial<ProvidersEditor> & { file?: File | null }>({});
+  const [paymentProviders, setPaymentProviders] = useState<Provider[]>([]);
+  const [gameProviders, setGameProviders] = useState<Provider[]>([]);
+  const [name, setName] = useState('');
+  const [type, setType] = useState<'payment' | 'game'>('payment');
+  const [file, setFile] = useState<File | null>(null);
 
   const fetchProviders = async () => {
     const { data, error } = await supabase.from('providers').select('*');
-    if (!error) setProviders(data || []);
+    if (!error && data) {
+      setPaymentProviders(data.filter(p => p.type === 'payment'));
+      setGameProviders(data.filter(p => p.type === 'game'));
+    }
   };
 
   useEffect(() => {
     fetchProviders();
   }, []);
 
-  const uploadLogo = async (file: File) => {
+  const uploadLogo = async (file: File): Promise<string> => {
     const fileName = `${Date.now()}-${file.name}`;
-    const { error } = await supabase.storage.from('providerlogos').upload(fileName, file);
+    const { data, error } = await supabase.storage
+      .from('providerlogos')
+      .upload(fileName, file);
+
     if (error) throw new Error(error.message);
+
     return `https://acjvweypsumucqdjpwol.supabase.co/storage/v1/object/public/providerlogos/${fileName}`;
   };
 
-  const handleAdd = async () => {
+  const handleAddProvider = async () => {
     let logo_url = '';
-    if (newProvider.file) {
+    if (file) {
       try {
-        logo_url = await uploadLogo(newProvider.file);
-      } catch {
-        alert('❌ Failed to upload logo');
+        logo_url = await uploadLogo(file);
+      } catch (error) {
+        alert('❌ Error uploading logo');
         return;
       }
     }
 
-    const { error } = await supabase.from('providers').insert({
-      name: newProvider.name,
-      type: newProvider.type,
-      logo_url,
-    });
-
+    const { error } = await supabase.from('providers').insert({ name, type, logo_url });
     if (!error) {
-      alert('✅ Provider added successfully');
-      setNewProvider({});
+      alert('✅ Provider added');
+      setName('');
+      setFile(null);
       fetchProviders();
     } else {
       alert('❌ Failed to add provider');
     }
   };
 
-  const handleSave = async (id: string) => {
-    let logo_url = editedProvider.logo_url || '';
-    if (editedProvider.file) {
-      try {
-        logo_url = await uploadLogo(editedProvider.file);
-      } catch {
-        alert('❌ Failed to upload logo');
-        return;
+  const ProviderCard = ({ provider }: { provider: Provider }) => {
+    const [editing, setEditing] = useState(false);
+    const [editName, setEditName] = useState(provider.name);
+    const [editFile, setEditFile] = useState<File | null>(null);
+
+    const handleSave = async () => {
+      let newLogoUrl = provider.logo_url;
+      if (editFile) {
+        try {
+          newLogoUrl = await uploadLogo(editFile);
+        } catch (error) {
+          alert('❌ Error uploading logo');
+          return;
+        }
       }
-    }
+      const { error } = await supabase
+        .from('providers')
+        .update({ name: editName, logo_url: newLogoUrl })
+        .eq('id', provider.id);
 
-    const { error } = await supabase
-      .from('providers')
-      .update({
-        name: editedProvider.name,
-        type: editedProvider.type,
-        logo_url,
-      })
-      .eq('id', id);
+      if (!error) {
+        alert('✅ Provider updated');
+        setEditing(false);
+        fetchProviders();
+      } else {
+        alert('❌ Failed to update');
+      }
+    };
 
-    if (!error) {
-      alert('✅ Provider updated');
-      setEditingId(null);
-      fetchProviders();
-    } else {
-      alert('❌ Failed to update provider');
-    }
-  };
+    const handleDelete = async () => {
+      const { error } = await supabase.from('providers').delete().eq('id', provider.id);
+      if (!error) {
+        alert('🗑️ Provider deleted');
+        fetchProviders();
+      }
+    };
 
-  const handleDelete = async (id: string) => {
-    const { error } = await supabase.from('providers').delete().eq('id', id);
-    if (!error) {
-      alert('🗑️ Provider deleted');
-      fetchProviders();
-    } else {
-      alert('❌ Failed to delete provider');
-    }
+    return (
+      <div className="bg-white p-4 rounded shadow text-center">
+        {editing ? (
+          <>
+            <input
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              className="w-full border px-2 py-1 mb-2"
+            />
+            <input type="file" onChange={(e) => setEditFile(e.target.files?.[0] || null)} className="mb-2" />
+            <button onClick={handleSave} className="text-green-600 mr-2">Save</button>
+            <button onClick={() => setEditing(false)} className="text-gray-600">Cancel</button>
+          </>
+        ) : (
+          <>
+            <img src={provider.logo_url} alt={provider.name} className="w-24 h-24 object-contain mx-auto mb-2" />
+            <p className="font-semibold text-sm mb-1">{provider.name}</p>
+            <div className="flex justify-center gap-4">
+              <button onClick={() => setEditing(true)} className="text-blue-600">Edit</button>
+              <button onClick={handleDelete} className="text-red-600">Delete</button>
+            </div>
+          </>
+        )}
+      </div>
+    );
   };
 
   return (
-    <div className="space-y-8">
-      <h2 className="text-2xl font-bold">🧩 Edit Providers</h2>
-
-      <div className="flex gap-2 mb-4">
-        <input
-          placeholder="Name"
-          className="border px-2 py-1 rounded"
-          value={newProvider.name || ''}
-          onChange={(e) => setNewProvider({ ...newProvider, name: e.target.value })}
-        />
-        <select
-          value={newProvider.type || ''}
-          className="border px-2 py-1 rounded"
-          onChange={(e) => setNewProvider({ ...newProvider, type: e.target.value as 'payment' | 'game' })}
-        >
-          <option value="">Type</option>
-          <option value="payment">Payment</option>
-          <option value="game">Game</option>
-        </select>
-        <input
-          type="file"
-          onChange={(e) => setNewProvider({ ...newProvider, file: e.target.files?.[0] || null })}
-        />
-        <button onClick={handleAdd} className="bg-purple-600 text-white px-4 py-1 rounded">
-          ➕ Add Provider
-        </button>
+    <div className="p-6 space-y-10">
+      <div>
+        <h2 className="text-xl font-bold text-blue-600">🧾 Payment Providers</h2>
+        <div className="flex gap-2 mb-4">
+          <input
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border px-2 py-1 rounded"
+          />
+          <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+          <button
+            onClick={() => {
+              setType('payment');
+              handleAddProvider();
+            }}
+            className="bg-blue-600 text-white px-4 py-1 rounded"
+          >
+            ➕ Create Payment Provider
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {paymentProviders.map((p) => <ProviderCard key={p.id} provider={p} />)}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {providers.map((provider) => (
-          <div key={provider.id} className="bg-white p-4 rounded shadow">
-            {editingId === provider.id ? (
-              <>
-                <input
-                  value={editedProvider.name || ''}
-                  onChange={(e) => setEditedProvider({ ...editedProvider, name: e.target.value })}
-                  className="w-full mb-2 border px-2 py-1 rounded"
-                />
-                <select
-                  value={editedProvider.type || ''}
-                  onChange={(e) => setEditedProvider({ ...editedProvider, type: e.target.value as 'payment' | 'game' })}
-                  className="w-full mb-2 border px-2 py-1 rounded"
-                >
-                  <option value="payment">Payment</option>
-                  <option value="game">Game</option>
-                </select>
-                <input
-                  type="file"
-                  onChange={(e) => setEditedProvider({ ...editedProvider, file: e.target.files?.[0] || null })}
-                  className="mb-2"
-                />
-                <button onClick={() => handleSave(provider.id)} className="text-green-600 mr-2">Save</button>
-                <button onClick={() => setEditingId(null)} className="text-gray-500">Cancel</button>
-              </>
-            ) : (
-              <>
-                {provider.logo_url && (
-                  <img src={provider.logo_url} alt={provider.name} className="h-12 object-contain mb-2" />
-                )}
-                <h4 className="font-bold text-sm mb-1">{provider.name}</h4>
-                <p className="text-xs text-gray-500 mb-2">{provider.type}</p>
-                <div className="flex gap-2">
-                  <button onClick={() => {
-                    setEditingId(provider.id);
-                    setEditedProvider(provider);
-                  }} className="text-blue-600 text-sm">Edit</button>
-                  <button onClick={() => handleDelete(provider.id)} className="text-red-600 text-sm">Delete</button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
+      <div>
+        <h2 className="text-xl font-bold text-purple-600">🎮 Game Providers</h2>
+        <div className="flex gap-2 mb-4">
+          <input
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border px-2 py-1 rounded"
+          />
+          <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+          <button
+            onClick={() => {
+              setType('game');
+              handleAddProvider();
+            }}
+            className="bg-purple-600 text-white px-4 py-1 rounded"
+          >
+            ➕ Create Game Provider
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {gameProviders.map((p) => <ProviderCard key={p.id} provider={p} />)}
+        </div>
       </div>
     </div>
   );

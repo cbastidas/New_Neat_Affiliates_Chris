@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -38,36 +40,28 @@ export default function Navbar() {
         zIndex: 20,
       }}
     >
+      
       {/* Left: Logo + Admin text + Logout */}
       <div
-        onClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setMenuOpen(false);
-        }}
-        style={{
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-        }}
-      >
-        <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
+  onClick={() => {
+    const params = new URLSearchParams(window.location.search);
+    const isAdmin = params.get('admin') === 'true';
 
-        {isAdmin && (
-          <>
-            <span
-              style={{
-                fontSize: '1.25rem',
-                fontWeight: 'bold',
-                color: '#1f2937',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Admin Dashboard
-            </span>
-          </>
-        )}
-      </div>
+    if (isAdmin) {
+      navigate('/?admin=true');
+    } else {
+      navigate('/');
+    }
+  }}
+  style={{
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+  }}
+>
+  <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
+</div>
     </nav>
   );
 }
