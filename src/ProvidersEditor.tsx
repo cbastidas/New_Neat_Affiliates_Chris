@@ -112,7 +112,7 @@ export default function ProvidersEditor() {
           </>
         ) : (
           <>
-            <img src={provider.logo_url} alt={provider.name} className="w-24 h-24 object-contain mx-auto mb-2" />
+            <img src={provider.logo_url} alt={provider.name} className="w-40 h-40 object-contain mx-auto mb-2" />
             <p className="font-semibold text-sm mb-1">{provider.name}</p>
             <div className="flex justify-center gap-4">
               <button onClick={() => setEditing(true)} className="text-blue-600">Edit</button>

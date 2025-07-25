@@ -80,7 +80,14 @@ export default function AdminDashboard() {
       Logout
     </button>
   </div>
-        <div className="flex gap-2">
+        <div className="flex 
+            gap-2;
+            desktop-nav;
+            display: flex;
+            gap: 0.5rem;
+            flexWrap: wrap;
+            maxWidth: 100%;
+            justifyContent: flex-end;">
           <button onClick={() => whyJoinRef.current?.scrollIntoView({ behavior: 'smooth' })}>Why Join</button>
           <button onClick={() => commissionRef.current?.scrollIntoView({ behavior: 'smooth' })}>Commission Rate</button>
           <button onClick={() => brandsRef.current?.scrollIntoView({ behavior: 'smooth' })}>Our Brands</button>

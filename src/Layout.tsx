@@ -1,15 +1,19 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from './Navbar.tsx';
-import Footer from './Footer.tsx';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
-export default function Layout() {
+interface LayoutProps {
+  onOpenModal: (type: 'login' | 'signup') => void;
+}
+
+export default function Layout({ onOpenModal }: LayoutProps) {
   return (
     <div style={{ fontFamily: 'sans-serif', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
-      <Navbar />
+      <Navbar onOpenModal={onOpenModal} />
       <main style={{ paddingTop: '6rem' }}>
         <Outlet />
       </main>
-      <Footer />
+      <Footer onOpenModal={onOpenModal} />
     </div>
   );
 }

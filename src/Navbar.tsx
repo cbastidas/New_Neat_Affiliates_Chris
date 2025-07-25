@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenModal: (type: 'login' | 'signup') => void;
+}
+
+export default function Navbar({ onOpenModal }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -17,10 +19,6 @@ export default function Navbar() {
       element.scrollIntoView({ behavior: 'smooth' });
       setMenuOpen(false);
     }
-  };
-
-  const handleLogout = () => {
-    window.location.href = '/';
   };
 
   return (
@@ -40,28 +38,93 @@ export default function Navbar() {
         zIndex: 20,
       }}
     >
-      
-      {/* Left: Logo + Admin text + Logout */}
+      {/* Logo y título */}
       <div
-  onClick={() => {
-    const params = new URLSearchParams(window.location.search);
-    const isAdmin = params.get('admin') === 'true';
+        onClick={() => {
+          window.location.href = isAdmin ? '/?admin=true' : '/';
+        }}
+        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+      >
+        <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
+        {isAdmin && (
+          <span
+            style={{
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+              color: '#1f2937',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Admin Dashboard
+          </span>
+        )}
+      </div>
 
-    if (isAdmin) {
-      navigate('/?admin=true');
-    } else {
-      navigate('/');
-    }
-  }}
-  style={{
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.75rem',
-  }}
->
-  <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
-</div>
+      {/* Botones de navegación */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '0.5rem',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-end',
+        }}
+      >
+        {[
+          'WhyJoin',
+          'CommissionRate',
+          'Our Brands',
+          'Contact',
+          'FAQ',
+          'Login',
+          'Signup',
+        ].map((id) => {
+          const targetId =
+            isAdmin && id === 'WhyJoin' ? 'why-join-editor'
+              : id === 'Our Brands' ? 'OurBrands'
+              : id;
+
+          const isLogin = id === 'Login';
+          const isSignup = id === 'Signup';
+
+          return (
+            <button
+              key={id}
+              onClick={() => {
+                if (isLogin) {
+                  onOpenModal('login');
+                } else if (isSignup) {
+                  onOpenModal('signup');
+                } else {
+                  scrollToSection(targetId);
+                }
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = '#f3f4f6')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = 'transparent')
+              }
+            >
+              {id === 'Signup' ? (
+                <strong>Signup</strong>
+              ) : (
+                id.replace(/([A-Z])/g, ' $1').trim()
+              )}
+            </button>
+          );
+        })}
+      </div>
     </nav>
   );
 }

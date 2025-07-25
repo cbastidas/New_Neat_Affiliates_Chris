@@ -74,84 +74,92 @@ export default function App() {
     
     <div className="font-sans min-h-screen bg-gray-50">
       {/* Navbar */}
-      <nav
+<nav
+  style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    background: '#fff',
+    boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+    padding: '1rem 1.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    zIndex: 20,
+  }}
+>
+  {/* Logo - lleva al top */}
+  <div
+    onClick={() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setMenuOpen(false);
+    }}
+    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+  >
+    <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
+  </div>
+
+  {/* Desktop nav */}
+  <div
+    className="desktop-nav"
+    style={{
+      display: 'flex',
+      gap: '0.5rem',
+      flexWrap: 'wrap',
+      maxWidth: '100%',
+      justifyContent: 'flex-end',
+    }}
+  >
+    {[
+      'WhyJoin',
+      'CommissionRate',
+      'OurBrands',
+      'Contact',
+      'FAQ',
+    ].map((id) => (
+      <button
+        key={id}
+        onClick={() => scrollToSection(id)}
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          background: '#fff',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-          padding: '1rem 1.5rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap', // 
-          zIndex: 20,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '1rem',
+          color: '#374151',
+          padding: '0.5rem 0.75rem',
+          borderRadius: '6px',
+          transition: 'background 0.2s, color 0.2s',
+          whiteSpace: 'nowrap',
         }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.background = '#f3f4f6')
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.background = 'transparent')
+        }
       >
-        {/*Logo */}
-        <div
-          onClick={() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setMenuOpen(false);
-          }}
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-        >
-          <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
-        </div>
+        {id.replace(/([A-Z])/g, ' $1').trim()}
+      </button>
+    ))}
 
+    {/* Buttons login/signup */}
+    <button
+      onClick={() => setModalType('login')}
+      className="bg-purple-700 text-white px-3 py-1 rounded hover:bg-purple-800"
+    >
+      Login
+    </button>
+    <button
+      onClick={() => setModalType('signup')}
+      className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
+    >
+      Signup
+    </button>
+  </div>
+</nav>
 
-        {/* Desktop nav */}
-        <div
-          className="desktop-nav"
-          style={{
-            display: 'flex',
-            gap: '0.5rem',
-            flexWrap: 'wrap', 
-            maxWidth: '100%', 
-            justifyContent: 'flex-end',
-          }}
-        >
-          {[
-            'WhyJoin',
-            'CommissionRate',
-            'OurBrands',
-            'Contact',
-            'FAQ',
-            'Login',
-            'Signup',
-          ].map((id) => (
-            <button
-              key={id}
-              onClick={() => scrollToSection(id)}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                color: '#374151',
-                padding: '0.5rem 0.75rem',
-                borderRadius: '6px',
-                transition: 'background 0.2s, color 0.2s',
-                whiteSpace: 'nowrap', 
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = '#f3f4f6')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = 'transparent')
-              }
-            >
-              {id === 'SignupNow' ? (
-                <strong>Signup</strong>
-              ) : (
-                id.replace(/([A-Z])/g, ' $1').trim()
-              )}
-            </button>
-          ))}
-        </div>
-      </nav>
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (

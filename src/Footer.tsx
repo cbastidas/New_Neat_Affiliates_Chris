@@ -1,7 +1,12 @@
 // Footer.tsx
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Footer() {
+interface FooterProps {
+  onOpenModal: (type: 'login' | 'signup') => void;
+}
+
+
+export default function Footer({ onOpenModal }: FooterProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const isAdmin = location.search.includes('admin=true');
