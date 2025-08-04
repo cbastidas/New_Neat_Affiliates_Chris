@@ -36,7 +36,6 @@ export default function AdminDashboard() {
   const contactRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
   const loginRef = useRef<HTMLDivElement>(null);
-  const signupRef = useRef<HTMLDivElement>(null);
 
   const fetchBrands = async () => {
     const { data, error } = await supabase
