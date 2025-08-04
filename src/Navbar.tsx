@@ -5,7 +5,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onOpenModal }: NavbarProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -17,7 +16,6 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      setMenuOpen(false);
     }
   };
 
