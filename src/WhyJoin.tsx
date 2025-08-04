@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabaseClient';
+import LoginSignupModal from './LoginSignupModal';
 
 interface WhyJoinItem {
   id: string;
@@ -13,6 +14,7 @@ interface WhyJoinItem {
 export default function WhyJoin() {
   const [items, setItems] = useState<WhyJoinItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalType, setModalType] = useState<'login' | 'signup' | null>(null);
 
   useEffect(() => {
     const fetchWhyJoinItems = async () => {
@@ -65,6 +67,25 @@ export default function WhyJoin() {
             </div>
           ))}
         </div>
+
+        <br/>
+          <br/>
+            <div className="text-center mt-12">
+              <button onClick={() => setModalType('signup')} 
+              className="text-xl font-bold px-6 py-3 rounded-full bg-purple-600 text-white hover:bg-purple-800 shadow-lg transition z-1000"
+              >
+                Join Neat Affiliates
+              </button>
+              </div>
+
+              {modalType && (
+                          <LoginSignupModal
+                            isOpen={true}
+                            type={modalType}
+                            onClose={() => setModalType(null)}
+                          />
+                        )}
+            
       </div>
     </section>
   );

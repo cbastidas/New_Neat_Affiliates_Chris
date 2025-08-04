@@ -90,7 +90,7 @@ export default function App() {
     zIndex: 20,
   }}
 >
-  {/* Logo - lleva al top */}
+  {/* Logo - Takes to TOP */}
   <div
     onClick={() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
