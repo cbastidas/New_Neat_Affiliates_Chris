@@ -67,9 +67,9 @@ export default function AdminDashboard() {
       <div className="fixed top-0 left-0 w-full bg-white shadow z-20 p-4 flex justify-between items-center">
          <div className="flex items-center gap-4">
     <img
-      src="/logo.png"
+      src="./logo.png"
       alt="Logo"
-      className="h-8 cursor-pointer"
+      className="h-10 cursor-pointer"
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     />
     <h1 className="text-xl font-bold">Admin Dashboard</h1>
@@ -80,20 +80,84 @@ export default function AdminDashboard() {
       Logout
     </button>
   </div>
-        <div className="flex 
-            gap-2;
-            desktop-nav;
-            display: flex;
-            gap: 0.5rem;
-            flexWrap: wrap;
-            maxWidth: 100%;
-            justifyContent: flex-end;">
-          <button onClick={() => whyJoinRef.current?.scrollIntoView({ behavior: 'smooth' })}>Why Join</button>
-          <button onClick={() => commissionRef.current?.scrollIntoView({ behavior: 'smooth' })}>Commission Rate</button>
-          <button onClick={() => brandsRef.current?.scrollIntoView({ behavior: 'smooth' })}>Our Brands</button>
-          <button onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}>Contact</button>
-          <button onClick={() => faqRef.current?.scrollIntoView({ behavior: 'smooth' })}>FAQ</button>
-          <button onClick={() => loginRef.current?.scrollIntoView({ behavior: 'smooth' })}>Login/Signup</button>
+        <div style=
+
+              {{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }}>
+          <button style=
+
+              {{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }} onClick={() => whyJoinRef.current?.scrollIntoView({ behavior: 'smooth' })}>Why Join</button>
+          <button style=
+
+              {{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }}  onClick={() => commissionRef.current?.scrollIntoView({ behavior: 'smooth' })}>Commission Rate</button>
+          <button style=
+
+              {{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }} onClick={() => brandsRef.current?.scrollIntoView({ behavior: 'smooth' })}>Our Brands</button>
+          <button style=
+
+              {{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }} onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}>Contact</button>
+          <button style=
+
+              {{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                color: '#374151',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                transition: 'background 0.2s, color 0.2s',
+                whiteSpace: 'nowrap',
+              }} onClick={() => faqRef.current?.scrollIntoView({ behavior: 'smooth' })}>FAQ</button>
         </div>
       </div>
 
