@@ -29,7 +29,7 @@ export default function ProvidersEditor() {
 
   const uploadLogo = async (file: File): Promise<string> => {
     const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from('providerlogos')
       .upload(fileName, file);
 

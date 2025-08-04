@@ -67,7 +67,7 @@ export default function LogoVisibilityManager() {
 
     const fileExt = newLogoFile.name.split('.').pop();
     const fileName = `${Date.now()}-${newLogoName}.${fileExt}`;
-    const { data, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('brand-logos')
       .upload(fileName, newLogoFile);
 

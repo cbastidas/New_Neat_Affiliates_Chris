@@ -6,7 +6,7 @@ interface FooterProps {
 }
 
 
-export default function Footer({ onOpenModal }: FooterProps) {
+export default function Footer({  }: FooterProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const isAdmin = location.search.includes('admin=true');

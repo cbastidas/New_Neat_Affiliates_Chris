@@ -29,7 +29,7 @@ export default function WhyJoinEditor() {
   const handleAdd = async () => {
     if (!newReason.title || !newReason.description) return;
     const order = reasons.length;
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('why_join')
       .insert([{ ...newReason, order }]);
 

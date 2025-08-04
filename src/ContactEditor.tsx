@@ -27,7 +27,7 @@ export default function ContactEditor() {
 
   const uploadEmoji = async (file: File) => {
     const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from('contacticons')
       .upload(fileName, file);
 
