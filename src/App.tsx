@@ -12,7 +12,6 @@ import Contact from './Contact';
 import Faq from './Faq';
 import LoginSignupModal from './LoginSignupModal';
 import NewsImage from './NewsImage';
-import { Radius } from 'lucide-react';
 
 
 
