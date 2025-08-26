@@ -20,6 +20,7 @@
     "@tiptap/starter-kit": "^3.0.7",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.525.0",
+    "motion": "^12.23.12",
     "quill": "^2.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

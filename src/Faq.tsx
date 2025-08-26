@@ -30,7 +30,7 @@ export default function Faq() {
   const filtered = faqs.filter(f => f.category === activeCategory);
 
   return (
-    <section id="FAQ" className="py-16 text-center">
+    <section id="FAQ" className="py-16 text-center bg-white rounded-2xl border">
       <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
       <p className="text-gray-600 mb-6">You can find the answers to your questions. For different questions, please contact us.</p>
 

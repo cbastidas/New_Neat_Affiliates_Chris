@@ -165,6 +165,8 @@ export default function AdminDashboard() {
           <h2 className="text-2xl font-bold text-center mb-6"></h2>
           <WhyJoinEditor />
         </section>
+        
+
 
         <section ref={commissionRef}>
           <h2 className="text-2xl font-bold text-center mb-6">Commission Rate</h2>

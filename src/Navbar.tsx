@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Menu, X } from 'lucide-react'; 
 
 interface NavbarProps {
   onOpenModal: (type: 'login' | 'signup') => void;
@@ -6,6 +7,7 @@ interface NavbarProps {
 
 export default function Navbar({ onOpenModal }: NavbarProps) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -16,57 +18,37 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setMenuOpen(false);
     }
   };
 
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        background: '#fff',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-        padding: '1rem 1.5rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        zIndex: 20,
-      }}
-    >
-      {/* Logo y título */}
+    <nav className="fixed top-0 left-0 w-full bg-white shadow-md px-6 py-4 flex items-center justify-between z-20">
+      {/* Logo */}
       <div
         onClick={() => {
           window.location.href = isAdmin ? '/?admin=true' : '/';
         }}
-        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+        className="cursor-pointer flex items-center gap-3"
       >
-        <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
+        <img src="/logo.png" alt="Logo" className="h-7" />
         {isAdmin && (
-          <span
-            style={{
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-              color: '#1f2937',
-              whiteSpace: 'nowrap',
-            }}
-          >
+          <span className="text-lg font-bold text-gray-800 whitespace-nowrap">
             Admin Dashboard
           </span>
         )}
       </div>
 
-      {/* Botones de navegación */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '0.5rem',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-end',
-        }}
+      {/* Hamburguer Menu */}
+      <button
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden text-purple-700"
       >
+        {menuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Navbar Desktop */}
+      <div className={`hidden md:flex gap-2 flex-wrap justify-end`}>
         {[
           'WhyJoin',
           'CommissionRate',
@@ -88,41 +70,54 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
             <button
               key={id}
               onClick={() => {
-                if (isLogin) {
-                  onOpenModal('login');
-                } else if (isSignup) {
-                  onOpenModal('signup');
-                } else {
-                  scrollToSection(targetId);
-                }
+                if (isLogin) onOpenModal('login');
+                else if (isSignup) onOpenModal('signup');
+                else scrollToSection(targetId);
               }}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                color: '#374151',
-                padding: '0.5rem 0.75rem',
-                borderRadius: '6px',
-                transition: 'background 0.2s, color 0.2s',
-                whiteSpace: 'nowrap',
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = '#f3f4f6')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = 'transparent')
-              }
+              className="text-gray-700 text-sm px-3 py-2 rounded hover:bg-gray-100 transition"
             >
-              {id === 'Signup' ? (
-                <strong>Signup</strong>
-              ) : (
-                id.replace(/([A-Z])/g, ' $1').trim()
-              )}
+              {id === 'Signup' ? <strong>Signup</strong> : id.replace(/([A-Z])/g, ' $1').trim()}
             </button>
           );
         })}
       </div>
+
+      {/* Navbar Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md px-6 py-4 flex flex-col gap-2 z-40">
+          {[
+            'WhyJoin',
+            'CommissionRate',
+            'Our Brands',
+            'Contact',
+            'FAQ',
+            'Login',
+            'Signup',
+          ].map((id) => {
+            const targetId =
+              isAdmin && id === 'WhyJoin' ? 'why-join-editor'
+                : id === 'Our Brands' ? 'OurBrands'
+                : id;
+
+            const isLogin = id === 'Login';
+            const isSignup = id === 'Signup';
+
+            return (
+              <button
+                key={id}
+                onClick={() => {
+                  if (isLogin) onOpenModal('login');
+                  else if (isSignup) onOpenModal('signup');
+                  else scrollToSection(targetId);
+                }}
+                className="text-gray-700 text-sm text-left px-4 py-2 rounded hover:bg-gray-100 transition"
+              >
+                {id === 'Signup' ? <strong>Signup</strong> : id.replace(/([A-Z])/g, ' $1').trim()}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 }

@@ -30,13 +30,13 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="Contact" className="text-center py-16 bg-gray-50">
+    <section id="Contact" className="text-center py-16 bg-gray-50 rounded-2xl border">
       <h2 className="text-3xl font-bold text-purple-700 mb-2">Contact Us</h2>
       <p className="text-gray-600 mb-8">
         Reach out to us via Email, Telegram or Microsoft Teams.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4 bg-grey-50 rounded-2xl border">
         {contacts.map((item) => (
           <div key={item.id} className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
             {item.emoji_url && (

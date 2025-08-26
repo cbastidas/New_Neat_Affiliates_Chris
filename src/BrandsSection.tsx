@@ -14,13 +14,13 @@ export default function BrandLogoGallery() {
   useEffect(() => {
     const fetchLogos = async () => {
       const { data, error } = await supabase
-        .from('logos') // 🚨 Cambiado de 'brands' a 'logos'
+        .from('logos') 
         .select('id, name, logo_url, is_visible');
 
       if (error) {
         console.error('Error fetching logos:', error.message);
       } else if (data) {
-        // 🚨 Solo los logos visibles
+       
         const visibleLogos = data.filter((logo) => logo.is_visible);
         setLogos(visibleLogos);
       }
@@ -32,7 +32,7 @@ export default function BrandLogoGallery() {
   if (logos.length === 0) return null;
 
   return (
-    <section className="py-12 bg-white overflow-hidden relative">
+    <section className="py-12 bg-white overflow-hidden relative py-16 bg-white rounded-2xl border">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-center mb-8 text-purple-700">Our Brands</h2>
 

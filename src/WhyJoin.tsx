@@ -39,7 +39,7 @@ export default function WhyJoin() {
   }
 
   return (
-    <section id="WhyJoin" className="py-16 bg-white">
+    <section id="WhyJoin" className="py-16 bg-white rounded-2xl border">
       <div className="max-w-5xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
           Why Join Neat Affiliates?

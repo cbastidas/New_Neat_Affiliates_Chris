@@ -11,6 +11,9 @@ import { Session } from '@supabase/supabase-js';
 import Contact from './Contact';
 import Faq from './Faq';
 import LoginSignupModal from './LoginSignupModal';
+import NewsImage from './NewsImage';
+import { Radius } from 'lucide-react';
+
 
 
 export default function App() {
@@ -74,22 +77,8 @@ export default function App() {
     
     <div className="font-sans min-h-screen bg-gray-50">
       {/* Navbar */}
-<nav
-  style={{
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    background: '#fff',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-    padding: '1rem 1.5rem',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    zIndex: 20,
-  }}
->
+<nav className="fixed top-0 left-0 w-full bg-white shadow-md px-6 py-4 flex justify-between items-center flex-wrap z-20">
+
   {/* Logo - Takes to TOP */}
   <div
     onClick={() => {
@@ -101,95 +90,86 @@ export default function App() {
     <img src="/logo.png" alt="Logo" style={{ height: '28px' }} />
   </div>
 
-  {/* Desktop nav */}
-  <div
-    className="desktop-nav"
-    style={{
-      display: 'flex',
-      gap: '0.5rem',
-      flexWrap: 'wrap',
-      maxWidth: '100%',
-      justifyContent: 'flex-end',
-    }}
-  >
-    {[
-      'WhyJoin',
-      'CommissionRate',
-      'OurBrands',
-      'Contact',
-      'FAQ',
-    ].map((id) => (
+    {/* Hamburguer Menu */}
       <button
-        key={id}
-        onClick={() => scrollToSection(id)}
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          fontSize: '1rem',
-          color: '#374151',
-          padding: '0.5rem 0.75rem',
-          borderRadius: '6px',
-          transition: 'background 0.2s, color 0.2s',
-          whiteSpace: 'nowrap',
-        }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.background = '#f3f4f6')
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.background = 'transparent')
-        }
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden text-purple-700"
       >
-        {id.replace(/([A-Z])/g, ' $1').trim()}
+        {menuOpen ? '✕' : '☰'}
       </button>
-    ))}
 
-    {/* Buttons login/signup */}
+{/* Desktop nav */}
+<div className="hidden md:flex flex-wrap gap-2 justify-end w-full max-w-full">
+
+  {[
+    'WhyJoin',
+    'News',
+    'CommissionRate',
+    'OurBrands',
+    'Contact',
+    'FAQ',
+  ].map((id) => (
     <button
-      onClick={() => setModalType('login')}
-      className="bg-purple-700 text-white px-3 py-1 rounded hover:bg-purple-800"
+      key={id}
+      onClick={() => scrollToSection(id)}
+      className="text-gray-700 text-sm px-3 py-2 rounded hover:bg-gray-100 transition"
     >
-      Login
+      {id.replace(/([A-Z])/g, ' $1').trim()}
     </button>
-    <button
-      onClick={() => setModalType('signup')}
-      className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
-    >
-      Signup
-    </button>
-  </div>
+  ))}
+
+  <button
+    onClick={() => setModalType('login')}
+    className="bg-purple-700 text-white px-3 py-1 rounded hover:bg-purple-800"
+  >
+    Login
+  </button>
+  <button
+    onClick={() => setModalType('signup')}
+    className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
+  >
+    Signup
+  </button>
+</div>
+
 </nav>
 
 
       {/* Mobile Menu Dropdown */}
-      {menuOpen && (
+{menuOpen && (
+  <div className="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-50 px-4 py-4">
+    {[
+      { id: 'WhyJoin', label: 'Why Join' },
+      { id: 'News', label: 'News' },
+      { id: 'CommissionRate', label: 'Commission Rate' },
+      { id: 'OurBrands', label: 'Our Brands' },
+      { id: 'Contact', label: 'Contact' },
+      { id: 'FAQ', label: 'FAQ' },
+    ].map(({ id, label }) => (
+      <button
+        key={id}
+        onClick={() => scrollToSection(id)}
+        className="block w-full text-left text-gray-700 py-2 px-2 rounded hover:bg-gray-100"
+      >
+        {label}
+      </button>
+    ))}
 
-        <div className="md:hidden fixed top-16 w-full bg-white shadow-md px-4 py-2 z-10">
-          {[
-            'WhyJoin',
-            'CommissionRate',
-            'OurBrands',
-            'Contact',
-            'FAQ',
-            'Login',
-            'Signup',
-          ].map((id) => (
-            <button
-              key={id}
-              onClick={() => scrollToSection(id)}
-              className="block w-full text-left text-gray-700 py-2 hover:bg-gray-100 rounded-md transition"
-            >
-              {id === 'SignupNow' ? (
-                <strong>Signup</strong>
-              ) : (
-                id.replace(/([A-Z])/g, ' $1').trim()
-              )}
-            </button>
-          ))}
-        </div>
-      )}
-      
-
+    {/* Login/Signup en mobile */}
+    <button
+      onClick={() => { setModalType('login'); setMenuOpen(false); }}
+      className="block w-full text-left text-purple-700 py-2 px-2 font-medium hover:bg-purple-100"
+    >
+      Login
+    </button>
+    <button
+      onClick={() => { setModalType('signup'); setMenuOpen(false); }}
+      className="block w-full text-left text-green-700 py-2 px-2 font-medium hover:bg-green-100"
+    >
+      Signup
+    </button>
+  </div>
+)}
 
       {/* Main content */}
       <div><BackgroundAnimation /></div>
@@ -199,8 +179,12 @@ export default function App() {
           <WhyJoin />
         }
 
+        {
+          <NewsImage />
+        }
+
 {/* ✅ Commission Rate with dynamic cards */}
-        <section id="CommissionRate" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
+        <section id="CommissionRate" style={{ paddingTop: '4rem', paddingBottom: '4rem', borderWidth: '2px', borderRadius: '1rem', backgroundColor: 'white'}}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
             <h2 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '1rem', color: '#1f2937' }}>
               Commission Rate
@@ -220,7 +204,7 @@ export default function App() {
                      </h3>
             
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center bg-white rounded-2xl border">
               {brands.map((brand) => (
                 <BrandCard
                   key={brand.id}
@@ -248,7 +232,10 @@ export default function App() {
         <PublicBrandLogoGallery />
         </div>
 
-        <Contact />    
+        
+
+        <Contact />   
+        <br></br> 
 
         <Faq />
 
